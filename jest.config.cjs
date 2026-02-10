@@ -3,9 +3,12 @@ module.exports = {
   testEnvironment: 'node',
   roots: ['<rootDir>/test'],
   extensionsToTreatAsEsm: ['.ts'],
-  globals: {
-    'ts-jest': {
-      useESM: true
-    }
-  }
+
+  moduleNameMapper: {
+    '^(\\.{1,2}/.*)\\.js$': '$1',
+  },
+
+  transform: {
+    '^.+\\.ts$': ['ts-jest', { useESM: true }],
+  },
 };
