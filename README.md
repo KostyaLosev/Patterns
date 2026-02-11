@@ -12,6 +12,30 @@
 - **Invoker (`FileCommandInvoker`)** — единая точка выполнения команд.
 - **RealFileService** — реальная работа с файловой системой.
 
+## Архитектура проекта
+
+```text
+src/
+  app/
+    demo.ts
+  commands/
+    read-file-command.ts
+    write-file-command.ts
+    delete-file-command.ts
+  domain/
+    access-policy.ts
+    command.ts
+    file-action.ts
+    file-service.ts
+  invoker/
+    file-command-invoker.ts
+  proxy/
+    access-proxy-file-service.ts
+  services/
+    real-file-service.ts
+  index.ts
+```
+
 ## Запуск
 
 ```bash
