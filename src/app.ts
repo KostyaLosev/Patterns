@@ -1,21 +1,22 @@
 import { Pyramid } from './entities/pyramid.js';
 import { Triangle } from './entities/triangle.js';
-import { TriangleFactory } from './factories/triangle-factory.js';
 import { PyramidFactory } from './factories/pyramid-factory.js';
+import { TriangleFactory } from './factories/triangle-factory.js';
 import { FileReader } from './io/file-reader.js';
 import { logger } from './io/logger.js';
-import { PyramidService } from './services/pyramid-service.js';
-import { TriangleService } from './services/triangle-service.js';
+import { ShapeRepository } from './repository/shape-repository.js';
+import { ShapeByFirstPointQuadrantSpecification } from './specifications/shape-specifications.js';
 import { PyramidValidator } from './validators/pyramid-validator.js';
 import { TriangleValidator } from './validators/triangle-validator.js';
+import { Warehouse } from './warehouse/warehouse.js';
 
 const fileReader = new FileReader();
 const triangleFactory = new TriangleFactory();
 const pyramidFactory = new PyramidFactory();
-const triangleService = new TriangleService();
-const pyramidService = new PyramidService();
 const triangleValidator = new TriangleValidator();
 const pyramidValidator = new PyramidValidator();
+const repository = new ShapeRepository();
+const warehouse = Warehouse.getInstance();
 
 const loadTriangles = (file: string): Triangle[] => {
   const lines = fileReader.readLines(file);
@@ -55,27 +56,17 @@ const loadPyramids = (file: string): Pyramid[] => {
   });
 };
 
-const triangles = loadTriangles('src/data/triangles.txt');
-const pyramids = loadPyramids('src/data/pyramids.txt');
+[...loadTriangles('src/data/triangles.txt'), ...loadPyramids('src/data/pyramids.txt')]
+  .forEach((shape) => repository.add(shape));
 
-triangles.forEach((triangle) => {
+repository.getAll().forEach((shape) => {
   logger.info({
-    id: triangle.id,
-    perimeter: triangleService.perimeter(triangle),
-    area: triangleService.area(triangle),
-    right: triangleService.isRight(triangle),
-    isosceles: triangleService.isIsosceles(triangle),
-    equilateral: triangleService.isEquilateral(triangle),
-    angleType: triangleService.angleType(triangle),
-  }, 'Triangle metrics');
+    id: shape.id,
+    name: shape.name,
+    type: shape.type,
+    metrics: warehouse.get(shape.id),
+  }, 'Shape stored in repository');
 });
 
-pyramids.forEach((pyramid) => {
-  logger.info({
-    id: pyramid.id,
-    surfaceArea: pyramidService.surfaceArea(pyramid),
-    volume: pyramidService.volume(pyramid),
-    baseOnPlane: pyramidValidator.isBaseOnCoordinatePlane(pyramid),
-    ratioXY: pyramidService.volumeRatioByPlane(pyramid, 'XY'),
-  }, 'Pyramid metrics');
-});
+const inFirstQuadrant = repository.find(new ShapeByFirstPointQuadrantSpecification());
+logger.info({ count: inFirstQuadrant.length }, 'Shapes with first point in first quadrant');
