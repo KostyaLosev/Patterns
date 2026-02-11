@@ -4,7 +4,7 @@ import {
   ShapeByIdSpecification,
   ShapeByMetricRangeSpecification,
   ShapeByNameSpecification,
-} from '../src/specifications/shape-specifications.js';
+} from '../src/specifications/shapes/index.js';
 import {
   ShapeByFirstPointXComparator,
   ShapeByFirstPointYComparator,

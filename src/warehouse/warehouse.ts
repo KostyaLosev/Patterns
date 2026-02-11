@@ -5,7 +5,9 @@ export class Warehouse {
 
   private readonly values = new Map<string, ShapeMetrics>();
 
-  private constructor() {}
+  private constructor() {
+  // Singleton: prevent direct instantiation
+  }
 
   public static getInstance(): Warehouse {
     if (!Warehouse.instance) {

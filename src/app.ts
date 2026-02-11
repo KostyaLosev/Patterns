@@ -5,7 +5,7 @@ import { TriangleFactory } from './factories/triangle-factory.js';
 import { FileReader } from './io/file-reader.js';
 import { logger } from './io/logger.js';
 import { ShapeRepository } from './repository/shape-repository.js';
-import { ShapeByFirstPointQuadrantSpecification } from './specifications/shape-specifications.js';
+import { ShapeByFirstPointQuadrantSpecification } from './specifications/shapes/shape-by-first-point-quadrant-specification.js';
 import { PyramidValidator } from './validators/pyramid-validator.js';
 import { TriangleValidator } from './validators/triangle-validator.js';
 import { Warehouse } from './warehouse/warehouse.js';
