@@ -6,6 +6,27 @@
 - **Composite** — древовидная структура проекта из узлов и задач (`ProjectNode`, `Task`).
 - **Iterator** — последовательный обход компонентов проекта (`ProjectIterator`).
 
+## Структура проекта
+
+```text
+src/
+  app/
+    createSampleProject.ts
+  domain/
+    builder/
+      ProjectBuilder.ts
+    components/
+      ProjectComponent.ts
+      ProjectNode.ts
+      Task.ts
+    iterator/
+      ProjectIterator.ts
+      ProjectTraversal.ts
+    project/
+      Project.ts
+  index.ts
+```
+
 ## Запуск
 
 ```bash
