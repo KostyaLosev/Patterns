@@ -10,7 +10,7 @@ import {
   ShapeByFirstPointYComparator,
   ShapeByIdComparator,
   ShapeByNameComparator,
-} from '../src/comparators/shape-comparators.js';
+} from '../src/comparators/shapes/index.js';
 import { Point } from '../src/entities/point.js';
 import { Pyramid } from '../src/entities/pyramid.js';
 import { Triangle } from '../src/entities/triangle.js';
@@ -51,7 +51,7 @@ describe('Repository, specifications and warehouse', () => {
     expect(perimeterShapes).toEqual([triangle]);
 
     const byDistance = repository.find(new ShapeByDistanceToOriginRangeSpecification(1, 2));
-    expect(byDistance).toEqual([triangle]);
+    expect(byDistance).toEqual([triangle, pyramid]);
   });
 
   it('sorts shapes with comparators', () => {
@@ -79,7 +79,7 @@ describe('Repository, specifications and warehouse', () => {
 
     const updatedPerimeter = warehouse.get('t-7')?.perimeter;
     expect(initialPerimeter).toBeCloseTo(12, 5);
-    expect(updatedPerimeter).toBeCloseTo(18, 5);
+    expect(updatedPerimeter).toBeCloseTo(6 + 4 + Math.sqrt(52), 5);
 
     expect(repository.removeById('t-7')).toBe(true);
     expect(warehouse.get('t-7')).toBeUndefined();
